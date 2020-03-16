@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NFCDemo</string>
+    <string name="error_code">Error Code：0x%x</string>
+    <string name="connecting">Connecting...</string>
+    <string name="select_device">Select a Device</string>
+    <string name="close">Close</string>
+    <string name="refresh">Refresh</string>
+    <string name="need_pin">Input PIN depend on your device</string>
+    <string name="communicating">Communicating....</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+</resources>
