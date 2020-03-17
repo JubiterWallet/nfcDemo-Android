@@ -158,25 +158,25 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 getData();
                 break;
             case R.id.btn_btc_get_xpub:
-                sendApdu(CommList.BTC_GET_XPUB_KEYS);
+                btcGetXpub(false);
                 break;
             case R.id.btn_btc_trans:
                 btcTrans(false);
                 break;
             case R.id.btn_btc_get_xpub_new:
-                sendApdu(CommList.BTC_GET_XPUB_KEYS_NEW);
+                btcGetXpub(true);
                 break;
             case R.id.btn_btc_trans_new:
                 btcTrans(true);
                 break;
             case R.id.btn_eth_get_xpub:
-                sendApdu(CommList.ETH_GET_XPUB_KEYS);
+                ethGetXpub(false);
                 break;
             case R.id.btn_eth_trans:
                 ethTrans(false);
                 break;
             case R.id.btn_eth_get_xpub_new:
-                sendApdu(CommList.ETH_GET_XPUB_KEYS_NEW);
+                ethGetXpub(true);
                 break;
             case R.id.btn_eth_trans_new:
                 ethTrans(true);
@@ -216,10 +216,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         String apdu = lenApdu + delayApdu.toString();
         apdu = CommList.GET_DATA + getApduHexLen(apdu) + apdu;
 
-        String timesStr = mEditGetDataTimes.getText().toString().trim().replace(" ", "");
-        int times = Integer.parseInt(timesStr);
-        if (times <= 0) {
-            Toast.makeText(MainActivity.this, "Error cycle times.", Toast.LENGTH_SHORT).show();
+        int times = getLoopTimes();
+        if (times < 1) {
             return;
         }
         ArrayList<String> list = new ArrayList<>();
@@ -227,6 +225,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             list.add(apdu);
         }
         sendApdu(list);
+    }
+
+    private int getLoopTimes() {
+        String timesStr = mEditGetDataTimes.getText().toString().trim().replace(" ", "");
+        int times = Integer.parseInt(timesStr);
+        if (times < 1) {
+            Toast.makeText(MainActivity.this, "Error cycle times.", Toast.LENGTH_SHORT).show();
+        }
+        return times;
     }
 
     private void generateSeed() {
@@ -287,20 +294,60 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }).show();
     }
 
+
+    private void btcGetXpub(boolean useNew) {
+        int times = getLoopTimes();
+        if (times < 1) {
+            return;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < times; i++) {
+            if (useNew) {
+                list.addAll(CommList.BTC_GET_XPUB_KEYS);
+            } else {
+                list.addAll(CommList.BTC_GET_XPUB_KEYS_NEW);
+            }
+        }
+        sendApdu(list);
+    }
+
+
     private void btcTrans(final boolean useNew) {
         getPin(new PinCallback() {
             @Override
             public void onSuccess() {
                 ArrayList<String> list = new ArrayList<>();
                 list.add(CommList.VERIFY_PIN + mApduPin);
+                int times = getLoopTimes();
+                if (times < 1) {
+                    return;
+                }
                 if (useNew) {
-                    list.addAll(CommList.BTC_SIGN_NEW);
-                } else {
+                    for (int i = 0; i < times; i++) {
+                        list.addAll(CommList.BTC_SIGN_NEW);
+                    }
+                } else {//BTC 非优化签名 不循环
                     list.addAll(CommList.BTC_SIGN);
                 }
                 sendApdu(list);
             }
         });
+    }
+
+    private void ethGetXpub(boolean useNew) {
+        int times = getLoopTimes();
+        if (times < 1) {
+            return;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < times; i++) {
+            if (useNew) {
+                list.addAll(CommList.ETH_GET_XPUB_KEYS);
+            } else {
+                list.addAll(CommList.ETH_GET_XPUB_KEYS_NEW);
+            }
+        }
+        sendApdu(list);
     }
 
     private void ethTrans(final boolean useNew) {
@@ -309,10 +356,16 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             public void onSuccess() {
                 ArrayList<String> list = new ArrayList<>();
                 list.add(CommList.VERIFY_PIN + mApduPin);
-                if (useNew) {
-                    list.addAll(CommList.ETH_SIGN_NEW);
-                } else {
-                    list.addAll(CommList.ETH_SIGN);
+                int times = getLoopTimes();
+                if (times < 1) {
+                    return;
+                }
+                for (int i = 0; i < times; i++) {
+                    if (useNew) {
+                        list.addAll(CommList.ETH_SIGN_NEW);
+                    } else {
+                        list.addAll(CommList.ETH_SIGN);
+                    }
                 }
                 sendApdu(list);
             }

@@ -143,14 +143,54 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="循环次数:"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/edit_get_data_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:text="1" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textStyle="italic"
+                    android:text="*循环次数 对以下除 [BTC 签名] 以外，均起作用"
+                    android:textSize="11sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorPrimaryDark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="数据长度（1~255）:"
-                        android:textSize="7sp" />
+                        android:textSize="10sp" />
 
                     <EditText
                         android:id="@+id/edit_get_data_len"
@@ -165,7 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="延迟时间（ms）:"
-                        android:textSize="7sp" />
+                        android:textSize="10sp" />
 
                     <EditText
                         android:id="@+id/edit_get_data_delay"
@@ -176,28 +216,14 @@
                         android:inputType="number"
                         android:text="100" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="循环次数:"
-                        android:textSize="7sp" />
-
-                    <EditText
-                        android:id="@+id/edit_get_data_time"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="13dp"
-                        android:layout_weight="1"
-                        android:inputType="number"
-                        android:text="1" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_get_data_len"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp" />
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp" />
 
                 <Button
                     android:id="@+id/btn_get_data"
@@ -225,7 +251,7 @@
                     android:id="@+id/btn_btc_trans"
                     style="@style/button"
                     android:onClick="onClick"
-                    android:text="BTC 交易" />
+                    android:text="BTC 签名" />
 
                 <Button
                     android:id="@+id/btn_btc_get_xpub_new"
@@ -238,7 +264,7 @@
                     android:id="@+id/btn_btc_trans_new"
                     style="@style/button"
                     android:onClick="onClick"
-                    android:text="BTC 交易 优化" />
+                    android:text="BTC 签名 优化" />
 
                 <View
                     android:layout_width="match_parent"
@@ -259,7 +285,7 @@
                     android:id="@+id/btn_eth_trans"
                     style="@style/button"
                     android:onClick="onClick"
-                    android:text="ETH 交易" />
+                    android:text="ETH 签名" />
 
                 <Button
                     android:id="@+id/btn_eth_get_xpub_new"
@@ -272,13 +298,20 @@
                     android:id="@+id/btn_eth_trans_new"
                     style="@style/button"
                     android:onClick="onClick"
-                    android:text="ETH 交易 优化" />
+                    android:text="ETH 签名 优化" />
 
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorPrimaryDark" />
 
     <ScrollView
         android:id="@+id/scrollView"
