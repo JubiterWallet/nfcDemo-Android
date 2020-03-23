@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NFCDemo</string>
+    <string name="app_name">nfcTest</string>
     <string name="error_code">Error Code：0x%x</string>
     <string name="connecting">Connecting...</string>
     <string name="select_device">Select a Device</string>
