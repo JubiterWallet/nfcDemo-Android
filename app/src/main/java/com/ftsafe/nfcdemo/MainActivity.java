@@ -303,9 +303,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < times; i++) {
             if (useNew) {
-                list.addAll(CommList.BTC_GET_XPUB_KEYS);
-            } else {
                 list.addAll(CommList.BTC_GET_XPUB_KEYS_NEW);
+            } else {
+                list.addAll(CommList.BTC_GET_XPUB_KEYS);
             }
         }
         sendApdu(list);
@@ -342,9 +342,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < times; i++) {
             if (useNew) {
-                list.addAll(CommList.ETH_GET_XPUB_KEYS);
-            } else {
                 list.addAll(CommList.ETH_GET_XPUB_KEYS_NEW);
+            } else {
+                list.addAll(CommList.ETH_GET_XPUB_KEYS);
             }
         }
         sendApdu(list);

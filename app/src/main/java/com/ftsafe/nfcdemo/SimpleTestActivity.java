@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +40,13 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
     private final static int REQUEST_PERMISSION = 0x1002;
     private ApiNfc mApiNfcardOTP;
     private SimpleDateFormat mFormat;
+    private EditText mEditTestTimes;
 
     private TextView mTxtLog;
     private ScrollView mScrollView;
     private File mCurrentFile;
+    private List<String> mCurrentAdpus;
+    private int mCurrentLoopIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
 
         mTxtLog = findViewById(R.id.tv_message);
         mScrollView = findViewById(R.id.scrollView);
+        mEditTestTimes = findViewById(R.id.edit_test_times);
 
         mFormat = new SimpleDateFormat("yyyy-MM-dd   hh:mm:ss");
         mApiNfcardOTP = ApiNfc.getInstance(this);
@@ -102,28 +107,61 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
     }
 
     public void onClick(View view) {
-        if(apduing){
-            return;
+        switch (view.getId()) {
+            case R.id.btn_start_test:
+                if (mTestContinue) {
+                    return;
+                }
+
+                mCurrentAdpus = FileUtils.getApdu();
+                if (mCurrentAdpus.size() == 0) {
+                    Toast.makeText(this, "No apdus.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCurrentFile = FileUtils.makeLogFile();
+                int times = getLoopTimes();
+                if (times > 0) {
+                    setTestContinue(true);
+                    mCurrentLoopIndex = 1;
+                    sendApdu(mCurrentAdpus);
+                }
+                break;
+            case R.id.btn_end_test:
+                setTestContinue(false);
+                break;
         }
-        List<String> apdu = FileUtils.getApdu();
-        if (apdu.size() == 0) {
-            Toast.makeText(this, "No apdus.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mCurrentFile = FileUtils.makeLogFile();
-        sendApdu(apdu);
     }
 
-    boolean apduing = false;
+    private int getLoopTimes() {
+        String timesStr = mEditTestTimes.getText().toString().trim().replace(" ", "");
+        int times = Integer.parseInt(timesStr);
+        if (times < 1) {
+            Toast.makeText(SimpleTestActivity.this, "Error cycle times.", Toast.LENGTH_SHORT).show();
+        }
+        return times;
+    }
+
+    boolean mTestContinue = false;
+
+    private void setTestContinue(boolean testContinue) {
+        mTestContinue = testContinue;
+        mEditTestTimes.setEnabled(!testContinue);
+    }
 
     private void sendApdu(List<String> preApdus) {
-        final ArrayList<String> apdus = new ArrayList<>(preApdus);
-        if (apdus.size() == 0) {
-            apduing = false;
-            Toast.makeText(this, "Done.", Toast.LENGTH_SHORT).show();
+        if (!mTestContinue) {
             return;
         }
-        apduing = true;
+        if (preApdus.size() == 0) {
+            mCurrentLoopIndex++;
+            if (mCurrentLoopIndex > getLoopTimes()) {
+                setTestContinue(false);
+                Toast.makeText(this, "Done.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            preApdus = mCurrentAdpus;
+        }
+        final ArrayList<String> apdus = new ArrayList<>(preApdus);
         final String apdu = apdus.remove(0);
         sendToMain(apdu, LOG_SEND);
         byte[] apduBytes = hexString2Bytes(apdu);
@@ -137,7 +175,7 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
             public void onResult(int errorCode, String result) {
                 if (result == null) {
                     sendToMain(Utils.getError(errorCode), LOG_ERROR);
-                    apduing = false;
+                    setTestContinue(false);
                     return;
                 }
                 sendToMain(result, LOG_RECV);
@@ -179,7 +217,7 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
 
 
     private void sendToMain(final String s, final int logSend) {
-        FileUtils.saveLog(logSend, mCurrentFile, s);
+        FileUtils.saveLog(logSend, mCurrentFile, s, mCurrentLoopIndex);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -187,13 +225,13 @@ public class SimpleTestActivity extends AppCompatActivity implements EasyPermiss
                 mTxtLog.append("Time:\t" + mFormat.format(new Date(currentTimeMillis)) + "\n");
                 if (logSend == LOG_SEND) {
                     Log.d("LOG_SEND", s);
-                    mTxtLog.append(Html.fromHtml("<p><font color=\"#85d46f\">发送:<br>" + s + "</p>"));
+                    mTxtLog.append(Html.fromHtml("<p><font color=\"#85d46f\">第" + mCurrentLoopIndex + "次测试--发送:<br>" + s + "</p>"));
                 } else if (logSend == LOG_RECV) {
                     Log.d("LOG_RECV", s);
-                    mTxtLog.append(Html.fromHtml("<p><font color=\"#55c0e4\">接收:<br>" + s + "</p>"));
+                    mTxtLog.append(Html.fromHtml("<p><font color=\"#55c0e4\">第" + mCurrentLoopIndex + "次测试--接收:<br>" + s + "</p>"));
                 } else if (logSend == LOG_ERROR) {
                     Log.d("LOG_ERROR", s);
-                    mTxtLog.append(Html.fromHtml("<p><font color=\"#f92743\">ERROR:<br>" + s + "</p>"));
+                    mTxtLog.append(Html.fromHtml("<p><font color=\"#f92743\">第" + mCurrentLoopIndex + "次测试--ERROR:<br>" + s + "</p>"));
                 }
                 scrollBottom(mScrollView, mTxtLog);
             }

@@ -14,7 +14,7 @@ public class CommList {
     public static final String IMPORT_MNEMONIC_DATA_ENTROPY =   "1000000000000000000000000000000000";
     //public static final String IMPORT_MNEMONIC_DATA_ENTROPY =   "10042BA54A95B4E29E89A10F7BFA6F1166";
 
-    public static final String EXPORT_MNEMONIC =    "DFFF";
+    public static final String EXPORT_MNEMONIC =    "DFFF ";
     public static final String EXPORT_MNEMONIC_DATA_TAG = "8202";
     public static final String GENERATE_SEED =      "DFFE";
     public static final String GENERATE_SEED_DATA_TAG =  "8203";

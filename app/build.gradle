@@ -7,8 +7,8 @@ android {
         applicationId "com.ftsafe.nfctest"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.032300"
+        versionCode 2
+        versionName "1.032400"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

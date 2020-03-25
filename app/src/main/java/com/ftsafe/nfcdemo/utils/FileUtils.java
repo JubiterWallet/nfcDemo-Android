@@ -29,7 +29,7 @@ public class FileUtils {
         if (!dir.exists()) {
             dir.mkdir();
         }
-        Log.d("ZJF",dir.getAbsolutePath());
+        Log.d("ZJF", dir.getAbsolutePath());
     }
 
     private static File getDir() {
@@ -83,16 +83,18 @@ public class FileUtils {
         return logFile;
     }
 
-    public static void saveLog(final int type, final File logFile, final String msg) {
-        Log.d("TEST","saveLog");
+    public static void saveLog(final int type, final File logFile, final String msg, final int testIndex) {
+        Log.d("TEST", "saveLog");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     FileOutputStream fos = new FileOutputStream(logFile, true);
-                    String title = "Send:";
+                    String title = "第" + testIndex + "次测试--";
                     if (type == LOG_RECV) {
-                        title = "Recv:";
+                        title += "Recv:";
+                    } else {
+                        title += "Send:";
                     }
                     title = title + getTime(true);
                     fos.write(title.getBytes());
