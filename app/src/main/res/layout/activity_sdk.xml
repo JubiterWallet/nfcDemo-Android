@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SDKActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_apdu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_weight="2.5"
+                    android:text="00A40400" />
+
+                <Button
+                    android:id="@+id/btn_send_apdu"
+                    style="@style/button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClick"
+                    android:text="send apdu" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:text="PIN:" />
+
+                    <EditText
+                        android:id="@+id/edit_pin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_weight="1"
+                        android:text="5555" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btn_rest"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="REST" />
+
+                <Button
+                    android:id="@+id/btn_import_mnemonic"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="IMPORT MNEMONIC" />
+
+                <Button
+                    android:id="@+id/btn_export_mnemonic"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="EXPORT MNEMONIC" />
+
+                <Button
+                    android:id="@+id/btn_generate_seed"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="GENERATE SEED" />
+
+                <Button
+                    android:id="@+id/btn_change_pin"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="CHANGE PIN" />
+
+                <Button
+                    android:id="@+id/btn_device_info"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="DEVICE INFO" />
+
+                <Button
+                    android:id="@+id/btn_device_cert"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="DEVICE CERT" />
+
+                <Button
+                    android:id="@+id/btn_applets"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="ENUM APPLETS" />
+
+                <Button
+                    android:id="@+id/btn_get_address"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="BTC 获取地址" />
+
+                <Button
+                    android:id="@+id/btn_btc_trans"
+                    style="@style/button"
+                    android:onClick="onClick"
+                    android:text="BTC 签名" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_verify_pin"
+                        style="@style/button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClick"
+                        android:text="单独验PIN" />
+
+                    <Button
+                        android:id="@+id/btn_just_trans"
+                        style="@style/button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClick"
+                        android:text="单独BTC交易" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

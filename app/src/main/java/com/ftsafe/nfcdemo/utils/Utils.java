@@ -2,16 +2,16 @@ package com.ftsafe.nfcdemo.utils;
 
 import java.math.BigInteger;
 
-import static com.ftsafe.nfcdemo.nfc.NfcComm.ERROR_NFC_DISABLED;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.ERROR_NO_NFC;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.ERROR_NO_TAG;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.ERROR_RECV_DATA;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.EXCP_COMM_CONNECT;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.EXCP_COMM_DISCONNECT;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.EXCP_COMM_TRANSCEIVE;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.FT_FAIL;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.FT_RECV_DATA_SPECIAL;
-import static com.ftsafe.nfcdemo.nfc.NfcComm.FT_RECV_LEN_ERROR;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.ERROR_NFC_DISABLED;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.ERROR_NO_NFC;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.ERROR_NO_TAG;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.ERROR_RECV_DATA;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.EXCP_COMM_CONNECT;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.EXCP_COMM_DISCONNECT;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.EXCP_COMM_TRANSCEIVE;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.FT_RECV_LEN_ERROR;
+import static com.ftsafe.nfc.card.sdk.ApiNfc.FT_SUCCESS;
+
 
 public class Utils {
 
@@ -92,14 +92,8 @@ public class Utils {
     public static String getError(int ret) {
         String msg;
         switch (ret) {
-            case 0:
+            case FT_SUCCESS:
                 msg = "success";
-                break;
-            case FT_FAIL:
-                msg = "error: fail";
-                break;
-            case FT_RECV_DATA_SPECIAL:
-                msg = "error: receive data 6c8f";
                 break;
             case FT_RECV_LEN_ERROR:
                 msg = "error: receive data len error";
