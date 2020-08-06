@@ -128,12 +128,12 @@ public class SDKActivity extends AppCompatActivity {
     private void getPin(final PinCallback callback) {
         String pin = mEditPin.getText().toString().trim().replace(" ", "");
         int length = pin.length();
-        if (length >= 4 && length <= 8) {
+//        if (length >= 4 && length <= 8) {
             mPINStr = pin;
             callback.onSuccess();
-        } else {
-            Toast.makeText(SDKActivity.this, "Error length", Toast.LENGTH_SHORT).show();
-        }
+//        } else {
+//            Toast.makeText(SDKActivity.this, "Error length", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void getPin(String title, final PinCallback callback) {
@@ -141,12 +141,12 @@ public class SDKActivity extends AppCompatActivity {
             @Override
             public void onClickListener(String pin) {
                 int length = pin.length();
-                if (length >= 4 && length <= 8) {
+//                if (length >= 4 && length <= 8) {
                     mPINStr = pin;
                     callback.onSuccess();
-                } else {
-                    Toast.makeText(SDKActivity.this, "Error length", Toast.LENGTH_SHORT).show();
-                }
+//                } else {
+//                    Toast.makeText(SDKActivity.this, "Error length", Toast.LENGTH_SHORT).show();
+//                }
             }
         }).show();
     }
